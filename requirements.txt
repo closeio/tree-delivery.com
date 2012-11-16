@@ -1,0 +1,7 @@
+Flask==0.9
+-e git://github.com/stripe/stripe-python.git#egg=stripe
+flask-heroku
+# flask-sqlalchemy
+# psycopg2
+Flask-Mail
+ipython

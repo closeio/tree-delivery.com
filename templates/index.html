@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Christmas tree delivery in the San Francisco Bay Area</title>
+    <meta name="description" content="The easiest way to get a Christmas or holiday tree delivered to your home or business!" />
+
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/main.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.8.1.min.js"><\/script>')</script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/placeholder-shiv/0.2/placeholder-shiv.jquery.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1><em>Tree-Delivery.com</em></h1>
+        <p>The easiest way to buy a Christmas tree. We deliver to your home or office! We'll even bring it inside and set up the stand.<br/> Questions? 818-485-1440</p>
+    </header>
+
+    <div class="content">
+        <form action="/charge" method="POST" id="payment-form">
+            <input type="hidden" id="total-price-input" name="amount" value="" />
+            <input type="hidden" id="stripeToken" name="stripeToken" value="" />
+
+            <h2>1) Pick a tree</h2>
+            <p>All our trees are hand selected sustainable Noble Firs. Call us at 818-485-1440 if you prefer a different variety. <br/> If you are in the SF Bay Area, we will drive it over and set it up. Otherwise we will ship it to you FedEx Ground (free)</p>
+            <div class="products-main products clearfix">
+                <div class="product">
+                    <h2>Bootstrapped</h2>
+                    <div class="img">
+                        <img width="125" height="125" style="margin-left: 53px;" src="{{ url_for('static', filename='img/tree-256.png') }}" alt="" />
+                    </div>
+                    <p>
+                        5&ndash;6 feet tall <br/> Free Delivery <br/> Free Set-Up (SF Bay Area Only)<br/> Tree Stand and Removal Bag Included
+                    </p>
+                    <div class="price">
+                        <span class="price">$125</span>
+                    </div>
+                    <input type="radio" name="tree_type" value="tree_small" />
+                </div>
+                <div class="product">
+                    <h2>Seed</h2>
+                    <div class="img">
+                        <img width="160" height="160" style="margin-left: 40px;" src="{{ url_for('static', filename='img/tree-256.png') }}" alt="" />
+                    </div>
+                    <p>
+                        6&ndash;7 feet tall <br/> Free Delivery <br/> Free Set-Up (SF Bay Area Only)<br/> Tree Stand and Removal Bag Included
+                    </p>
+                    <div class="price">
+                        <span class="price">$175</span>
+                    </div>
+                    <input type="radio" name="tree_type" value="tree_medium" />
+                </div>
+                <div class="product">
+                    <h2>Series A</h2>
+                    <div class="img">
+                        <img width="200" height="200" style="margin-left: 15px;" src="{{ url_for('static', filename='img/tree-256.png') }}" alt="" />
+                    </div>
+                    <p>
+                        7&ndash;8 feet tall <br/> Free Delivery <br/> Free Set-Up (SF Bay Area Only)<br/> Tree Stand and Removal Bag Included
+                    </p>
+                    <div class="price">
+                        <span class="price">$250</span>
+                    </div>
+                    <input type="radio" name="tree_type" value="tree_large" />
+                </div>
+            </div>
+
+            <br>
+            <h2>2) Pick accessories (optional)</h2>
+            <div class="products-accessories products clearfix">
+                <div class="product">
+                    <div class="img">
+                        <img width="125" height="125" src="{{ url_for('static', filename='img/skirt1.jpg') }}" alt="" />
+                    </div>
+                    <div class="price">
+                        <span class="price">$20</span>
+                    </div>
+                    <input type="radio" name="skirt_type" value="skirt1" />
+                </div>
+                <div class="product">
+                    <div class="img">
+                        <img width="125" height="125" src="{{ url_for('static', filename='img/skirt2.jpg') }}" alt="" />
+                    </div>
+                    <div class="price">
+                        <span class="price">$50</span>
+                    </div>
+                    <input type="radio" name="skirt_type" value="skirt2" />
+                </div>
+                <div class="product">
+                    <div class="img">
+                        <img width="125" height="125" src="{{ url_for('static', filename='img/skirt3.jpg') }}" alt="" />
+                    </div>
+                    <div class="price">
+                        <span class="price">$80</span>
+                    </div>
+                    <input type="radio" name="skirt_type" value="skirt3" />
+                </div>
+            </div>
+
+            <br>
+            <h2>3) Super fast checkout</h2>
+            <div class="clearfix">
+                <div class="cart">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Total Price</th>
+                            <td id="total-price">$0</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="div-payment-form">
+                    <h3>Contact Info</h3>
+                    <div class="form-row">
+                        <input type="email" name="email" class="email" placeholder="Email Address" />
+                    </div>
+                    <div class="form-row">
+                        <input type="tel" name="phone" class="phone" placeholder="Phone Number" />
+                        <span style="color: #777; vertical-align: top; line-height: 28px; padding-left: 3px;">(we'll call to schedule a delivery)</span>
+                    </div>
+
+                    <h3>Delivery Address (US Only)</h3>
+                    <div class="form-row">
+                        <input type="text" name="address" class="address" placeholder="Street Address" />
+                    </div>
+                    <div class="form-row">
+                        <input type="text" class="city" name="city" placeholder="City" />
+                        <select name="state" class="state">
+                            <option value="">State</option>
+                            <option>AL</option>
+                            <option>AK</option>
+                            <option>AZ</option>
+                            <option>AR</option>
+                            <option>CA</option>
+                            <option>CO</option>
+                            <option>CT</option>
+                            <option>DE</option>
+                            <option>DC</option>
+                            <option>FL</option>
+                            <option>GA</option>
+                            <option>HI</option>
+                            <option>ID</option>
+                            <option>IL</option>
+                            <option>IN</option>
+                            <option>IA</option>
+                            <option>KS</option>
+                            <option>KY</option>
+                            <option>LA</option>
+                            <option>ME</option>
+                            <option>MD</option>
+                            <option>MA</option>
+                            <option>MI</option>
+                            <option>MN</option>
+                            <option>MS</option>
+                            <option>MO</option>
+                            <option>MT</option>
+                            <option>NE</option>
+                            <option>NV</option>
+                            <option>NH</option>
+                            <option>NJ</option>
+                            <option>NM</option>
+                            <option>NY</option>
+                            <option>NC</option>
+                            <option>ND</option>
+                            <option>OH</option>
+                            <option>OK</option>
+                            <option>OR</option>
+                            <option>PA</option>
+                            <option>RI</option>
+                            <option>SC</option>
+                            <option>SD</option>
+                            <option>TN</option>
+                            <option>TX</option>
+                            <option>UT</option>
+                            <option>VT</option>
+                            <option>VA</option>
+                            <option>WA</option>
+                            <option>WV</option>
+                            <option>WI</option>
+                            <option>WY</option>                        </select>
+                        <input type="text" size="7" maxlength="5" class="zipcode" name="zip" placeholder="Zip Code" />
+                    </div>
+
+                    <button type="button" class="stripe-connect" id="stripe-button"><span>Pay with Card</span></button>
+                    <script src="https://button.stripe.com/v2/checkout.js"></script>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>
+            For questions or bulk orders, contact us at 818-485-1440 or <a href="mailto:info@tree-delivery.com">info@tree-delivery.com</a>. <br/>First Floor/Elevator Delivery Included. Please let us know if you have stairs. Tree decoration services also available upon request. All Sales Final.
+        </p>
+    </footer>
+
+</div>
+
+
+<script>
+
+    $('.product').click(function(ev) {
+        var $el = $(this),
+            $group = $el.parent(),
+            $input = $el.find('input');
+
+        // check/uncheck checkbox/radio btn
+        if (ev.target.tagName !== 'INPUT') {
+            $input.prop('checked', function(idx, oldAttr) {
+                return !oldAttr;
+            });
+        }
+
+        // correctly add/remove 'chosen' class on each product
+        $group.find('.product.chosen').each(function(i, el) {
+            if (!$(el).find('input').is(':checked')) {
+                $(el).removeClass('chosen');
+            }
+        });
+        if ($input.is(':checked')) $el.addClass('chosen');
+
+        updateTotal();
+    });
+
+    function updateTotal() {
+        // in cents
+        var prices = {{ prices|safe }};
+        var total = 0;
+        if ($('input[name=tree_type]:checked').val()) {
+            total += prices[$('input[name=tree_type]:checked').val()];
+        }
+        if ($('input[name=skirt_type]:checked').val()) {
+            total += prices[$('input[name=skirt_type]:checked').val()];
+        }
+
+        $('#total-price-input').val(total);
+        $('#total-price').text('$' + (Math.round(total / 100)));
+
+        return total;
+    }
+
+    $('#stripe-button').click(function() {
+        if (!validateForm()) {
+            alert('All fields are required.');
+            return;
+        }
+
+        var token = function(res){
+            $('#stripeToken').val(res.id);
+            $('#payment-form').submit();
+        };
+
+        StripeCheckout.open({
+            key:         '{{ stripe_publishable_key }}',
+            amount:      updateTotal(),
+            name:        'Tree-Delivery.com',
+            description: '',
+            token:       token
+        });
+
+        return false;
+    });
+
+    function validateForm() {
+        if (updateTotal() <= 0 ||
+            !$('input[name=tree_type]').val() ||
+            !$('input.city').val() || !$('.state').val() || !$('input.zipcode').val() || !$('input.email').val() || 
+            !$('input.address').val() || !$('input.phone').val()
+           ) {
+               return false;
+        }
+        return true;
+    }
+
+    $('#payment-form').submit(function() {
+        if (!validateForm()) {
+            alert('All fields are required.');
+            return false;
+        }
+    });
+</script>
+
+
+<script src="static/js/vendor/snowstorm-min.js"></script>
+<script src="static/js/vendor/bootstrap.min.js"></script>
+
+<script src="//www.google.com/jsapi"></script>
+<script>
+(function() {
+    // Fill in a guessed city & state if possible
+    if (google.loader.ClientLocation && google.loader.ClientLocation.address && google.loader.ClientLocation.address.country === 'USA') {
+        var $city = $('input.city'),
+            $state = $('select.state'),
+            $zip = $('input.zipcode'),
+            address = google.loader.ClientLocation.address;
+        if (!$city.val() && !$state.val()) {
+            $city.val(address.city);
+            $state.val(address.region);
+        }
+    }
+}());
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-31933253-4']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<!-- begin olark code --><script data-cfasync="false" type='text/javascript'>/*{literal}<![CDATA[*/
+window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){f[z]=function(){(a.s=a.s||[]).push(arguments)};var a=f[z]._={},q=c.methods.length;while(q--){(function(n){f[z][n]=function(){f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={0:+new Date};a.P=function(u){a.p[u]=new Date-a.p[0]};function s(){a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{b.contentWindow[g].open()}catch(w){c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{var t=b.contentWindow[g];t.write(p());t.close()}catch(x){b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
+/* custom configuration goes here (www.olark.com/documentation) */
+olark.identify('2986-714-10-1857');/*]]>{/literal}*/</script><noscript><a href="https://www.olark.com/site/2986-714-10-1857/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript><!-- end olark code -->
+
+</body>
+</html>
